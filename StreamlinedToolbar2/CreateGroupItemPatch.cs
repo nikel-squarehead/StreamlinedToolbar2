@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GeneratedGroupPanel;
 
-namespace StreamlinedToolbar
+namespace StreamlinedToolbar2
 {
     [HarmonyPatch(typeof(GeneratedGroupPanel), "CreateGroupItem")]
     class CreateGroupItemPatch

@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 
-namespace StreamlinedToolbar
+namespace StreamlinedToolbar2
 {
     // This patch allows apple trees and other hidden vanilla trees to be included in the Beautification > Trees toolbar.
     [HarmonyPatch(typeof(GeneratedScrollPanel), "IsPlacementRelevant", new Type[] { typeof(TreeInfo) })]

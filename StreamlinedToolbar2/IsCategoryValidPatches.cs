@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 
-namespace StreamlinedToolbar
+namespace StreamlinedToolbar2
 {
     // These patches control which assets appear in which toolbar panel.
     // They are supplemented by 'IsServiceValidForPatches'.

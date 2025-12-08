@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using static GeneratedGroupPanel;
 
-namespace StreamlinedToolbar
+namespace StreamlinedToolbar2
 {
     // This patch ensures the tabs in the toolbar match our items' (modified) categories.
 

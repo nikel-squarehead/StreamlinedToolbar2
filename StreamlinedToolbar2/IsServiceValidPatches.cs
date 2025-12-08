@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace StreamlinedToolbar
+namespace StreamlinedToolbar2
 {
     // These patches control which assets appear in which toolbar panel.
     // They are supplemented by 'IsCategoryValidForPatches'.
