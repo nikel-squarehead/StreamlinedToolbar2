@@ -93,14 +93,23 @@ namespace StreamlinedToolbar
             }
         }
 
+        // Has the following category sorting logic:
+        // 1. Parking lots -> road maintenance
+        // 2. Parks & unique buildings on water -> water structures
+        // 3. Parks & plazas
+        // 4. Unique buildings
+        // 5. Service buildings: electricity, garbage, hospital, cemetery, fire station, police station, school, library
+        // 6. Roads & intersections
+        // 7. Public transportations
         private static string GetBuildingCategoryOverrideInternal(BuildingInfo info)
         {
-
+            // 1. Parking lots -> road maintenance
             if (info.GetService() == ItemClass.Service.Beautification && LooksLikeCarPark(info))
             {
                 return "RoadsMaintenance";
             }
 
+            // 2. Parks & unique buildings on water -> water structures
             if (info.GetService() == ItemClass.Service.Beautification || info.GetService() == ItemClass.Service.Monument)
             {
                 if (info.category != "BeautificationCityPark" &&
@@ -119,6 +128,81 @@ namespace StreamlinedToolbar
                 }
             }
 
+            // 3. Parks & plazas
+            if (info.GetService() == ItemClass.Service.Beautification)
+            {
+                if (info.category == "BeautificationPedestrianZonePlazas")
+                {
+                    return "BeautificationPlazas";
+                }
+
+                if (info.category == "MonumentModderPack")
+                {
+                    switch (info.m_requiredModderPack)
+                    {
+                        case SteamHelper.ModderPackBitMask.Pack2: // High-Tech Buildings
+                        case SteamHelper.ModderPackBitMask.Pack22: // Mountain Village
+                            return "BeautificationExpansion1";
+                        case SteamHelper.ModderPackBitMask.Pack17: // Sports Venues
+                            return "BeautificationOthers";
+                        case SteamHelper.ModderPackBitMask.Pack11: // Mid-century Modern
+                            if (info.name.Contains("otel"))
+                            {
+                                // Hotels and a motel
+                                return "BeautificationHotels";
+                            }
+                            return "BeautificationExpansion1";
+
+                        case SteamHelper.ModderPackBitMask.Pack18: // Africa in miniature
+                            if (info.name.Contains("onument"))
+                            {
+                                // "Park Monument"
+                                return "BeautificationParks";
+                            }
+                            break;
+
+                        default:
+                            switch (info.name)
+                            {
+                                case "MP26_Park_Concrete":
+                                case "MP26_Park_QueenOfHearts":
+                                case "ROJ Large Station Front Plaza":
+                                case "ROJ Small Station Front Plaza":
+                                    return "BeautificationPlazas"; // Plazas
+                                case "ROJ Small Station Market":
+                                    return "BeautificationExpansion1"; // Tourism & leisure
+                                default:
+                                    return "BeautificationProps";
+                            }
+                    }
+                }
+
+                // Various vanilla parks individually re-assigned by name
+                switch (info.name)
+                {
+                    case "Birch Park 01":
+                    case "Palm Park 01":
+                    case "Park Pond 01":
+                    case "Park Pond 02":
+                    case "Tiny Park 01":
+                    case "Tiny Playground 01":
+                        return "BeautificationParks"; // Parks
+                    case "Birthday Plaza 01":
+                    case "MerryGoRound":
+                    case "Tourist Park 01":
+                        return "BeautificationPlazas"; // Plazas
+                    case "10thAnniversary Park":
+                    case "Botanical garden":
+                    case "ChirpyBirthday Balloon Tours":
+                    case "Industry Park":
+                    case "Transport Park":
+                        return "BeautificationExpansion1"; // Tourism & leisure
+                    case "Beachvolley Court":
+                        return "BeautificationOthers"; // Sports grounds
+                }
+            }
+
+            // 4. Unique buildings
             if (info.m_buildingAI is MonumentAI)
             {
                 switch (info.m_requiredModderPack)
@@ -128,9 +212,11 @@ namespace StreamlinedToolbar
                     case SteamHelper.ModderPackBitMask.Pack16: // Shopping malls
                         return "MonumentsCommercial";
                     case SteamHelper.ModderPackBitMask.Pack12: // Seaside resorts
+                    case SteamHelper.ModderPackBitMask.Pack22: // Mountain Village
                         return "BeautificationHotels";
                     case SteamHelper.ModderPackBitMask.Pack1: // Art Deco
                     case SteamHelper.ModderPackBitMask.Pack13: // Skyscrapers
+                    case SteamHelper.ModderPackBitMask.Pack19: // Railroads of Japan
                         return "MonumentsOffice";
                     case SteamHelper.ModderPackBitMask.Pack18: // Africa in Miniature
 
@@ -177,6 +263,9 @@ namespace StreamlinedToolbar
                             case "Clock Tower":
                             case "Court House":
                             case "Korean Style Temple":
+                            case "MP24_UniqueBuilding01_TownHall":
+                            case "MP26_Unique_ArtMuseum":
+                            case "MP26_Unique_ConcertHall":
                             case "Observation Tower":
                             case "Old Market Street":
                             case "Oppression Office":
@@ -185,33 +274,7 @@ namespace StreamlinedToolbar
                             case "Space Shuttle Launch Site":
                             case "Sphinx Of Scenarios":
                             case "Ziggurat Garden":
-                                return "MonumentLandmarks";
-                            case "Bird and Bee Haven":
-                            case "Central Park":
-                            case "Climate Research Station":
-                            case "Fountain of LifeDeath":
-                            case "Friendly Neighborhood":
-                            case "Lungs of the City":
-                            case "Sparkly Unicorn Rainbow Park":
-                                return "BeautificationParks";
-                            case "Bronze Cow":
-                            case "Bronze Panda":
-                            case "Chirps Thumbs Up Plaza":
-                            case "Disaster Memorial":
-                            case "Fancy Fountain":
-                            case "Financial Plaza 01":
-                            case "Financial Plaza 02":
-                            case "Helicopter Park":
-                            case "Korean Food Alley":
-                            case "Lazaret Plaza":
-                            case "Meteorite Park":
-                            case "Official Park":
-                            case "Plaza of the Dead":
-                            case "Statue of Industry":
-                            case "Statue of Shopping":
-                            case "StatueOfWealth":
-                            case "Winter Market 01":
-                                return "BeautificationPlazas";
+                                return "MonumentLandmarks"; // Landmarks
                             case "Academic Library 01":
                             case "Aquarium":
                             case "Aviation Club 01 A":
@@ -232,11 +295,15 @@ namespace StreamlinedToolbar
                             case "Theater of Wonders":
                             case "Traffic Park":
                             case "Youjoy Entertainment Agency":
-                                return "MonumentExpansion1"; // Leisure
+                                return "MonumentExpansion1"; // Tourism & leisure
                             case "arena":
                             case "DrivingRange":
                             case "Stadium":
-                                return "MonumentFootball"; // Sports
+                                return "MonumentFootball"; // Sports grounds
+                            case "LuxuryHotel":
+                            case "PDX11_Hotel_kikyo":
+                            case "PDX12_CityHotel":
+                                return "BeautificationHotels"; // Hotels
                             case "department_store":
                             case "Dosan Square Center":
                             case "Grand Mall":
@@ -245,6 +312,9 @@ namespace StreamlinedToolbar
                             case "Landmark Market Hall 01":
                             case "Landmark Shopping Mall 01":
                             case "Mirae Department Store":
+                            case "MP24_UniqueBuilding02_PublicMarket":
+                            case "MP24_UniqueBuilding03_GeneralStore":
+                            case "MP26_Unique_DeptStore":
                             case "PDX01_driveinn_taiheiyo":
                             case "PDX02_driveinn_natori":
                             case "PDX03_Soba Restaurant":
@@ -256,7 +326,7 @@ namespace StreamlinedToolbar
                             case "Posh Mall":
                             case "shopping_center":
                             case "Trash Mall":
-                                return "MonumentsCommercial";
+                                return "MonumentsCommercial"; // Retail buildings
                             case "Acrocastle Apartment Complex":
                             case "Broadcasting Studios":
                             case "Colossal Offices":
@@ -282,11 +352,33 @@ namespace StreamlinedToolbar
                             case "Software Development Studio":
                             case "Television Station":
                             case "Transport Tower":
-                                return "MonumentsOffice";
-                            case "LuxuryHotel":
-                            case "PDX11_Hotel_kikyo":
-                            case "PDX12_CityHotel":
-                                return "BeautificationHotels";
+                                return "MonumentsOffice"; // Office and high-rise buildings
+                            case "Bird and Bee Haven":
+                            case "Central Park":
+                            case "Climate Research Station":
+                            case "Fountain of LifeDeath":
+                            case "Friendly Neighborhood":
+                            case "Lungs of the City":
+                            case "Sparkly Unicorn Rainbow Park":
+                                return "BeautificationParks"; // Parks
+                            case "Bronze Cow":
+                            case "Bronze Panda":
+                            case "Chirps Thumbs Up Plaza":
+                            case "Disaster Memorial":
+                            case "Fancy Fountain":
+                            case "Financial Plaza 01":
+                            case "Financial Plaza 02":
+                            case "Helicopter Park":
+                            case "Korean Food Alley":
+                            case "Lazaret Plaza":
+                            case "Meteorite Park":
+                            case "Official Park":
+                            case "Plaza of the Dead":
+                            case "Statue of Industry":
+                            case "Statue of Shopping":
+                            case "StatueOfWealth":
+                            case "Winter Market 01":
+                                return "BeautificationPlazas"; // Plazas
                             default:
                                 break;
                         }
@@ -294,6 +386,7 @@ namespace StreamlinedToolbar
                 }
             }
 
+            // 5. Service buildings: electricity, garbage, hospital, cemetery, fire station, police station, school, library
             if (info.category == "MonumentModderPack")
             {
                 if (info.m_buildingAI is PowerPlantAI)
@@ -328,38 +421,19 @@ namespace StreamlinedToolbar
                 {
                     return "EducationDefault";
                 }
-                else if (info.GetService() == ItemClass.Service.Beautification)
+            }
+
+            // 6. Roads & intersections
+            if (info.category == "RoadsModderPack")
+            {
+                if (info.m_requiredModderPack == SteamHelper.ModderPackBitMask.Pack27 ||
+                    info.m_requiredModderPack == SteamHelper.ModderPackBitMask.Pack23)
                 {
-                    switch (info.m_requiredModderPack)
-                    {
-                        case SteamHelper.ModderPackBitMask.Pack17:
-                            // Stadiums -> "Other parks" (used for sports venues)
-                            return "BeautificationOthers";
-
-                        case SteamHelper.ModderPackBitMask.Pack11:
-                            // Mid-century Modern
-                            if (info.name.Contains("otel"))
-                            {
-                                // Hotels and a motel
-                                return "BeautificationHotels";
-                            }
-                            break;
-
-                        case SteamHelper.ModderPackBitMask.Pack18:
-                            // Africa in miniature
-                            if (info.name.Contains("onument"))
-                            {
-                                // "Park Monument"
-                                return "BeautificationParks";
-                            }
-                            break;
-
-                    }
-                    // MCM Diners, Africa Botanical Museum, High-Tech farms, Piers etc. -> Leisure
-                    return "BeautificationExpansion1";
+                    return "RoadsIntersection";
                 }
             }
 
+            // 7. Public transportations
             if (info.category == "PublicTransportModderPack")
             {
                 if (info.m_buildingAI is TransportStationAI)
@@ -387,53 +461,6 @@ namespace StreamlinedToolbar
                         case VehicleInfo.VehicleCategory.Bus:
                             return "PublicTransportBus";
                     }
-                }
-            }
-
-            if (info.GetService() == ItemClass.Service.Beautification)
-            {
-                if (info.category == "BeautificationPedestrianZonePlazas")
-                {
-                    return "BeautificationPlazas";
-                }
-
-                if (info.category == "BeautificationParks")
-                {
-                    if (info.m_placementMode == BuildingInfo.PlacementMode.Shoreline)
-                    {
-                        // Piers
-                        return "BeautificationExpansion1"; // Parks -> Leisure
-                    }
-                }
-
-                // One of these should be Railways of Japan. The other two should be Brooklyn and Industrial Evolution, which don't come with parks
-                if (info.m_requiredModderPack == SteamHelper.ModderPackBitMask.Pack19 ||
-                    info.m_requiredModderPack == SteamHelper.ModderPackBitMask.Pack20 ||
-                    info.m_requiredModderPack == SteamHelper.ModderPackBitMask.Pack21)
-                {
-                    // All Railways of Japan parks, except for car parks which should have been identified earlier, are plazas
-                    return "BeautificationPlazas";
-                }
-
-                // Various parks individually re-assigned by name
-                switch (info.name)
-                {
-                    case "Botanical garden":// Parks -> Leisure
-                    case "ChirpyBirthday Balloon Tours": // Other parks -> Leisure
-                        return "BeautificationExpansion1";
-                    case "MerryGoRound": // Parks -> Plazas
-                    case "Birthday Plaza 01": // Other parks -> Plazas
-                    case "Tourist Park 01": // Leisure -> Plazas
-                        return "BeautificationPlazas"; // Parks -> Plazas
-                    case "Tiny Park 01": // Leisure -> Parks
-                    case "Tiny Playground 01": // Leisure -> Parks
-                    case "Birch Park 01": // Leisure -> Parks
-                    case "Palm Park 01": // Leisure -> Parks
-                    case "Park Pond 01": // Leisure -> Parks
-                    case "Park Pond 02": // Leisure -> Parks
-                        return "BeautificationParks";
-                    case "Beachvolley Court": // Leisure -> Other parks (i.e. Sports)
-                        return "BeautificationOthers";
                 }
             }
 
