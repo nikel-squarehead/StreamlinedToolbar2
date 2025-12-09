@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     // This patch ensures our new tabs are added to the toolbar.
     // (This is only needed for those panel classes where the default implementation explicitly lists permitted panels).

@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     public static class Patcher
     {

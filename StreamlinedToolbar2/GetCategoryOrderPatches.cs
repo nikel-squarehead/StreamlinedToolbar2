@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     // These patches determine the order in which our custom tabs appear in the toolbar.
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using static GeneratedGroupPanel;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     [HarmonyPatch(typeof(GeneratedGroupPanel), "CollectAssets")]
     class CollectAssetsPatch

@@ -2,7 +2,7 @@
 using Microsoft.Win32;
 using UnityEngine;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     // This patch makes some changes to asset sorting:
     // (1) Trees are always sorted by height, shortest to tallest

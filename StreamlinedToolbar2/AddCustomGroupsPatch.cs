@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using static GeneratedGroupPanel;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     // This patch skips creation of empty toolbar tabs.
     // (Only needed for those tabs which are created "forcefully". In most cases tabs are created based on there being at least 1 item in a given category.)

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     // This patch disables the 'Metro', 'Train' and 'Hub' filters that are displayed in all tabs (normally the "CCP" tab)
     // containing a station from Train Stations DLC.

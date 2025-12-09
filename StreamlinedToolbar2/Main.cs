@@ -2,7 +2,7 @@
 using CitiesHarmony.API;
 using UnityEngine.SceneManagement;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     public class Mod : IUserMod
     {

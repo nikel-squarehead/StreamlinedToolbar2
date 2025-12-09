@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StreamlinedToolbar2
+namespace StreamlinedToolbar
 {
     public enum StationType
     {
