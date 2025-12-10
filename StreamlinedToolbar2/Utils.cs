@@ -47,6 +47,27 @@ namespace StreamlinedToolbar
                     return "LandscapingPaths";
                 }
             }
+            else if (info.category == "RoadsModderPack")
+            {
+                uint laneCount = GetCarLaneCount(info);
+
+                if ((info.m_netAI as RoadBaseAI).m_highwayRules && !info.m_hasPedestrianLanes)
+                {
+                    return "RoadsHighway";
+                }
+                else if (laneCount <= 2)
+                {
+                    return "RoadsSmall";
+                }
+                else if (laneCount <= 4)
+                {
+                    return "RoadsMedium";
+                }
+                else
+                {
+                    return "RoadsLarge";
+                }
+            }
 
             return null;
         }
@@ -64,18 +85,7 @@ namespace StreamlinedToolbar
             }
 
             // All props normally shown in the different Beautification tabs to the "Props" tab
-            else if (info.category == "BeautificationModderPack" ||
-                     info.category == "BeautificationExpansion1" ||
-                     info.category == "BeautificationPedestrianZonePlazas" ||
-                     info.category == "BeautificationCityPark" ||
-                     info.category == "BeautificationAmusementPark" ||
-                     info.category == "BeautificationNatureReserve" ||
-                     info.category == "BeautificationZoo")
-            {
-                return "BeautificationProps";
-            }
-
-            return null;
+            return "BeautificationProps";
         }
 
         // Returns null if no override is requested (which usually means info.category is used).
@@ -626,6 +636,32 @@ namespace StreamlinedToolbar
             }
 
             return StationType.Unrecognized;
+        }
+
+        public static uint GetCarLaneCount(NetInfo info)
+        {
+            uint count = 0;
+
+            foreach (var lane in info.m_lanes)
+            {
+                if (IsCarLane(lane))
+                {
+                    count++; 
+                }
+            }
+
+            return count;
+        }
+
+        private static bool IsCarLane(NetInfo.Lane lane)
+        {
+            var laneType = NetInfo.LaneType.Vehicle;
+            var vehicleType = VehicleInfo.VehicleType.Car;
+            var vehicleCategory = VehicleInfo.VehicleCategoryPart1.PassengerCar;
+
+            return (lane.m_laneType & laneType) != 0 &&
+                   (lane.m_vehicleType & vehicleType) != 0 &&
+                   (lane.m_vehicleCategoryPart1 & vehicleCategory) != 0;
         }
     }
 }

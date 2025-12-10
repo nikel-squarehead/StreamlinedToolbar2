@@ -33,6 +33,31 @@ namespace StreamlinedToolbar
         }
     }
 
+    [HarmonyPatch(typeof(GeneratedScrollPanel), "IsCategoryValid", new Type[] { typeof(NetInfo), typeof(bool) })]
+    class IsCategoryValidForNetworkPatch
+    {
+        // Note: These (postfix) patches are high priority, as it lets other mods, which are likely to use default priority, override our behaviour. 
+        // Most mods are probably going to be more targeted, so it makes sense they would take precedence.
+        // Examples of mods that benefit from this: Better Education Toolbar, Better Healthcare Toolbar.
+
+        [HarmonyPriority(Priority.High)]
+        [HarmonyPostfix]
+        public static void Postfix(NetInfo info, bool ignore, GeneratedScrollPanel __instance, ref bool __result, ref string ___m_Category)
+        {
+            if (ignore || !Mod.IsInGame())
+            {
+                return;
+            }
+
+            string categoryOverride = Utils.GetNetCategoryOverride(info);
+
+            if (categoryOverride != null)
+            {
+                __result = ___m_Category == categoryOverride;
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(PublicTransportPanel), "IsCategoryValid", new Type[] { typeof(NetInfo), typeof(bool) })]
     class IsCategoryValidForNetworkPatch2
     {
