@@ -163,14 +163,6 @@ namespace StreamlinedToolbar
                             }
                             return "BeautificationExpansion1";
 
-                        case SteamHelper.ModderPackBitMask.Pack18: // Africa in miniature
-                            if (info.name.Contains("onument"))
-                            {
-                                // "Park Monument"
-                                return "BeautificationParks";
-                            }
-                            break;
-
                         default:
                             switch (info.name)
                             {
@@ -179,6 +171,7 @@ namespace StreamlinedToolbar
                                 case "ROJ Large Station Front Plaza":
                                 case "ROJ Small Station Front Plaza":
                                     return "BeautificationPlazas"; // Plazas
+                                case "Botanical Experience 8x5":
                                 case "ROJ Small Station Market":
                                     return "BeautificationExpansion1"; // Tourism & leisure
                                 default:
@@ -228,44 +221,13 @@ namespace StreamlinedToolbar
                     case SteamHelper.ModderPackBitMask.Pack13: // Skyscrapers
                     case SteamHelper.ModderPackBitMask.Pack19: // Railroads of Japan
                         return "MonumentsOffice";
-                    case SteamHelper.ModderPackBitMask.Pack18: // Africa in Miniature
-
-                        // Don't know the internal names for these, so have to hope these will work:
-                        if (info.name.Contains("duduwa") || info.name.Contains("emple") || info.name.Contains("yramid"))
-                        {
-                            // Sanctum of Oduduwa, Temple of Sahel, Unity Pyramid
-                            return "MonumentLandmarks";
-                        }
-
-                        if (info.name.Contains("arket"))
-                        {
-                            // Ego City Market
-                            return "MonumentsCommercial";
-                        }
-
-                        if (info.name.Contains("useum"))
-                        {
-                            // Royal Museum, Bantu Art Museum
-                            return "MonumentExpansion1"; // Leisure
-                        }
-
-                        if (info.name.Contains("enter") || info.name.Contains("ommunication") || info.name.Contains("ower"))
-                        {
-                            // Conference Center, Orunmila Towers, Communications Center, Gold Tower
-                            return "MonumentsOffice";
-                        }
-
-                        if (info.name.Contains("onument") && info.name.Contains("ahel"))
-                        {
-                            // Sahel Monument
-                            return "BeautificationPlazas";
-                        }
-
-                        break;
 
                     default:
                         switch (info.name)
                         {
+                            // Landmarks
+                            case "BNBN_35": // Sahel Monument
+                            case "BNBN_37": // Unity Pyramid
                             case "Business Park":
                             case "Cathedral of Plentitude":
                             case "City Arch":
@@ -273,21 +235,25 @@ namespace StreamlinedToolbar
                             case "Clock Tower":
                             case "Court House":
                             case "Korean Style Temple":
+                            case "Monument Landmark Static 2x3": // The Unification Monument
+                            case "Monument Landmark Static 8x8": // The Monument of Colossal Heroes
                             case "MP24_UniqueBuilding01_TownHall":
-                            case "MP26_Unique_ArtMuseum":
-                            case "MP26_Unique_ConcertHall":
                             case "Observation Tower":
-                            case "Old Market Street":
                             case "Oppression Office":
                             case "PDX17_Five Story Pagora":
                             case "Pyramid Of Safety":
                             case "Space Shuttle Launch Site":
                             case "Sphinx Of Scenarios":
+                            case "Unique Building 9x9": // The Temple of the Sahel
+                            case "Unique Building Level 6 3x2": // Sanctum of Oduduwa
                             case "Ziggurat Garden":
-                                return "MonumentLandmarks"; // Landmarks
+                                return "MonumentLandmarks";
+
+                            // Tourism & leisure
                             case "Academic Library 01":
                             case "Aquarium":
                             case "Aviation Club 01 A":
+                            case "BNBN_13": // Bantu Art Museum
                             case "cinema":
                             case "ExpoCenter":
                             case "Festival Area 1":
@@ -296,6 +262,8 @@ namespace StreamlinedToolbar
                             case "Library":
                             case "Live Music Venue":
                             case "Modern Art Museum":
+                            case "MP26_Unique_ArtMuseum":
+                            case "MP26_Unique_ConcertHall":
                             case "Observatory":
                             case "Opera House":
                             case "Panda Sanctuary":
@@ -303,17 +271,28 @@ namespace StreamlinedToolbar
                             case "SeaWorld":
                             case "Steam Train":
                             case "Theater of Wonders":
+                            case "theatre":
                             case "Traffic Park":
+                            case "Unique Building 32x16": // Conference Center
+                            case "Unique Building Museum 7x6": // Royal Museum
                             case "Youjoy Entertainment Agency":
-                                return "MonumentExpansion1"; // Tourism & leisure
+                                return "MonumentExpansion1";
+
+                            // Sports grounds
                             case "arena":
                             case "DrivingRange":
                             case "Stadium":
-                                return "MonumentFootball"; // Sports grounds
+                                return "MonumentFootball";
+
+                            // Hotels
+                            case "BNBN_7": // Luxury Hotel #2
+                            case "Luxury Hotel 4x4": // Luxury Hotel #1
                             case "LuxuryHotel":
                             case "PDX11_Hotel_kikyo":
                             case "PDX12_CityHotel":
-                                return "BeautificationHotels"; // Hotels
+                                return "BeautificationHotels";
+
+                            // Retail buildings
                             case "department_store":
                             case "Dosan Square Center":
                             case "Grand Mall":
@@ -325,6 +304,7 @@ namespace StreamlinedToolbar
                             case "MP24_UniqueBuilding02_PublicMarket":
                             case "MP24_UniqueBuilding03_GeneralStore":
                             case "MP26_Unique_DeptStore":
+                            case "Old Market Street":
                             case "PDX01_driveinn_taiheiyo":
                             case "PDX02_driveinn_natori":
                             case "PDX03_Soba Restaurant":
@@ -336,8 +316,12 @@ namespace StreamlinedToolbar
                             case "Posh Mall":
                             case "shopping_center":
                             case "Trash Mall":
-                                return "MonumentsCommercial"; // Retail buildings
+                            case "Unique Building Level 1 7x4": // Ego City Market
+                                return "MonumentsCommercial";
+
+                            // Office and high-rise buildings
                             case "Acrocastle Apartment Complex":
+                            case "BNBN_29": // Communications Center
                             case "Broadcasting Studios":
                             case "Colossal Offices":
                             case "Electric Car Factory":
@@ -362,7 +346,13 @@ namespace StreamlinedToolbar
                             case "Software Development Studio":
                             case "Television Station":
                             case "Transport Tower":
-                                return "MonumentsOffice"; // Office and high-rise buildings
+                            case "Unique Building 24x24": // Saharan Research Institute
+                            case "Unique Building 5x5": // The Gold Tower
+                            case "Unique Building Level 4 13x8": // Ọrunmila Towers
+                            case "Unique Building Level 4 9x5": // The Silver Tower
+                                return "MonumentsOffice";
+
+                            // Parks
                             case "Bird and Bee Haven":
                             case "Central Park":
                             case "Climate Research Station":
@@ -370,7 +360,9 @@ namespace StreamlinedToolbar
                             case "Friendly Neighborhood":
                             case "Lungs of the City":
                             case "Sparkly Unicorn Rainbow Park":
-                                return "BeautificationParks"; // Parks
+                                return "BeautificationParks";
+
+                            // Plazas
                             case "Bronze Cow":
                             case "Bronze Panda":
                             case "Chirps Thumbs Up Plaza":
@@ -388,7 +380,8 @@ namespace StreamlinedToolbar
                             case "Statue of Shopping":
                             case "StatueOfWealth":
                             case "Winter Market 01":
-                                return "BeautificationPlazas"; // Plazas
+                                return "BeautificationPlazas";
+
                             default:
                                 break;
                         }
@@ -396,12 +389,16 @@ namespace StreamlinedToolbar
                 }
             }
 
-            // 5. Service buildings: electricity, garbage, hospital, cemetery, fire station, police station, school, library
+            // 5. Service buildings: electricity, water pump, garbage, hospital, cemetery, fire station, police station, school, library
             if (info.category == "MonumentModderPack")
             {
                 if (info.m_buildingAI is PowerPlantAI)
                 {
                     return "ElectricityDefault";
+                }
+                else if (info.m_buildingAI is WaterFacilityAI)
+                {
+                    return "WaterServices";
                 }
                 else if (info.m_buildingAI is LandfillSiteAI)
                 {
