@@ -166,14 +166,18 @@ namespace StreamlinedToolbar
                         default:
                             switch (info.name)
                             {
+                                // Plazas
                                 case "MP26_Park_Concrete":
                                 case "MP26_Park_QueenOfHearts":
                                 case "ROJ Large Station Front Plaza":
                                 case "ROJ Small Station Front Plaza":
-                                    return "BeautificationPlazas"; // Plazas
+                                    return "BeautificationPlazas";
+
+                                // Tourism & leisure
                                 case "Botanical Experience 8x5":
                                 case "ROJ Small Station Market":
-                                    return "BeautificationExpansion1"; // Tourism & leisure
+                                    return "BeautificationExpansion1";
+
                                 default:
                                     return "BeautificationProps";
                             }
@@ -183,25 +187,32 @@ namespace StreamlinedToolbar
                 // Various vanilla parks individually re-assigned by name
                 switch (info.name)
                 {
+                    // Parks
                     case "Birch Park 01":
                     case "Palm Park 01":
                     case "Park Pond 01":
                     case "Park Pond 02":
                     case "Tiny Park 01":
                     case "Tiny Playground 01":
-                        return "BeautificationParks"; // Parks
+                        return "BeautificationParks";
+
+                    // Plazas
                     case "Birthday Plaza 01":
                     case "MerryGoRound":
                     case "Tourist Park 01":
-                        return "BeautificationPlazas"; // Plazas
+                        return "BeautificationPlazas";
+
+                    // Tourism & leisure
                     case "10thAnniversary Park":
                     case "Botanical garden":
                     case "ChirpyBirthday Balloon Tours":
                     case "Industry Park":
                     case "Transport Park":
-                        return "BeautificationExpansion1"; // Tourism & leisure
+                        return "BeautificationExpansion1";
+
+                    // Sports grounds
                     case "Beachvolley Court":
-                        return "BeautificationOthers"; // Sports grounds
+                        return "BeautificationOthers";
                 }
             }
 
