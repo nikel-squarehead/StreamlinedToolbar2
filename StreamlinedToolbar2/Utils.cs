@@ -85,7 +85,18 @@ namespace StreamlinedToolbar
             }
 
             // All props normally shown in the different Beautification tabs to the "Props" tab
-            return "BeautificationProps";
+            else if (info.category == "BeautificationModderPack" ||
+                     info.category == "BeautificationExpansion1" ||
+                     info.category == "BeautificationPedestrianZonePlazas" ||
+                     info.category == "BeautificationCityPark" ||
+                     info.category == "BeautificationAmusementPark" ||
+                     info.category == "BeautificationNatureReserve" ||
+                     info.category == "BeautificationZoo")
+            {
+                return "BeautificationProps";
+            }
+
+            return null;
         }
 
         // Returns null if no override is requested (which usually means info.category is used).
