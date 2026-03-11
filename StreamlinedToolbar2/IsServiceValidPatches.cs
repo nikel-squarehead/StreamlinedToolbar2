@@ -30,6 +30,12 @@ namespace StreamlinedToolbar
             {
                 __result = true;
             }
+
+            // This adds the Central Library from Modern History CCP to Educations tab.
+            if (__instance is EducationPanel && Utils.GetCategoryOverride(info) == "EducationDefault")
+            {
+                __result = true;
+            }
         }
     }
 

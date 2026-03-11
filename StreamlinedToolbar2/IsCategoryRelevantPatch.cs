@@ -17,4 +17,19 @@ namespace StreamlinedToolbar
             }
         }
     }
+    
+    // This patch prevents the Central Library from Modern History CCP from showing up under Unique Buildings tab.
+    // It should only show up under Educations tab.
+    [HarmonyPatch(typeof(MonumentsGroupPanel), "IsCategoryRelevant")]
+    class IsCategoryRelevantForMonumentsPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(string category, ref bool __result)
+        {
+            if (__result && category == "EducationDefault")
+            {
+                __result = false;
+            }
+        }
+    }
 }

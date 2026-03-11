@@ -16,6 +16,7 @@ namespace StreamlinedToolbar
     {
         // Need access to this protected method
         private static MethodInfo createGroupMethod = AccessTools.Method(typeof(GeneratedGroupPanel), "CreateGroupInfo", new Type[] { typeof(string), typeof(PrefabInfo) });
+        private static MethodInfo getCategoryOrderMethod = AccessTools.Method(typeof(GeneratedGroupPanel), "GetCategoryOrder", new Type[] { typeof(string) });
 
         [HarmonyPrefix]
         static bool Prefix(PoolList<GroupInfo> groupItems, BeautificationGroupPanel __instance)
@@ -36,6 +37,10 @@ namespace StreamlinedToolbar
                     SteamHelper.IsDLCOwned(SteamHelper.DLC.ModderPack11)) // also create for the MCM CCP
                 {
                     groupItems.Add((GroupInfo)createGroupMethod.Invoke(__instance, new[] { "BeautificationHotels", null }));
+                }
+                if (SteamHelper.IsDLCOwned(SteamHelper.DLC.RacesAndParadesDLC))
+                {
+                    groupItems.Add(new BeautificationGroupPanel.PTGroupInfo("BeautificationRacesAndParades", (int)getCategoryOrderMethod.Invoke(__instance, new[] { "BeautificationRacesAndParades" }) , ItemClass.Service.Race, UnlockManager.Feature.None));
                 }
             }
 

@@ -125,9 +125,12 @@ namespace StreamlinedToolbar
         private static string GetBuildingCategoryOverrideInternal(BuildingInfo info)
         {
             // 1. Parking lots -> road maintenance
-            if (info.GetService() == ItemClass.Service.Beautification && LooksLikeCarPark(info))
+            if (info.GetService() == ItemClass.Service.Beautification || info.GetService() == ItemClass.Service.PublicTransport)
             {
-                return "RoadsMaintenance";
+                if (LooksLikeCarPark(info))
+                {
+                    return "RoadsMaintenance";
+                }
             }
 
             // 2. Parks & unique buildings on water -> water structures
@@ -173,6 +176,8 @@ namespace StreamlinedToolbar
                                 return "BeautificationHotels";
                             }
                             return "BeautificationExpansion1";
+                        case SteamHelper.ModderPackBitMask.Pack28: // Iconic Brutalism
+                            return "BeautificationPlazas";
 
                         default:
                             switch (info.name)
@@ -180,14 +185,27 @@ namespace StreamlinedToolbar
                                 // Plazas
                                 case "MP26_Park_Concrete":
                                 case "MP26_Park_QueenOfHearts":
+                                case "MP29_Park08":
+                                case "MP29_Park09":
                                 case "ROJ Large Station Front Plaza":
                                 case "ROJ Small Station Front Plaza":
                                     return "BeautificationPlazas";
 
                                 // Tourism & leisure
                                 case "Botanical Experience 8x5":
+                                case "MP29_Park02":
+                                case "MP29_Park03":
+                                case "MP29_Park04":
+                                case "MP29_Park05":
+                                case "MP29_Walkway01d":
                                 case "ROJ Small Station Market":
                                     return "BeautificationExpansion1";
+
+                                // Sports grounds
+                                case "MP29_Park01":
+                                case "MP29_Park06":
+                                case "MP29_Park07":
+                                    return "BeautificationOthers";
 
                                 default:
                                     return "BeautificationProps";
@@ -260,6 +278,7 @@ namespace StreamlinedToolbar
                             case "Monument Landmark Static 2x3": // The Unification Monument
                             case "Monument Landmark Static 8x8": // The Monument of Colossal Heroes
                             case "MP24_UniqueBuilding01_TownHall":
+                            case "MP28_CityHall01":
                             case "Observation Tower":
                             case "Oppression Office":
                             case "PDX17_Five Story Pagora":
@@ -286,6 +305,9 @@ namespace StreamlinedToolbar
                             case "Modern Art Museum":
                             case "MP26_Unique_ArtMuseum":
                             case "MP26_Unique_ConcertHall":
+                            case "MP28_Theatre01":
+                            // case "MP29_Library01":
+                            case "MP29_Museum01":
                             case "Observatory":
                             case "Opera House":
                             case "Panda Sanctuary":
@@ -303,6 +325,7 @@ namespace StreamlinedToolbar
                             // Sports grounds
                             case "arena":
                             case "DrivingRange":
+                            case "MP29_SportsCenter01":
                             case "Stadium":
                                 return "MonumentFootball";
 
@@ -310,11 +333,13 @@ namespace StreamlinedToolbar
                             case "BNBN_7": // Luxury Hotel #2
                             case "Luxury Hotel 4x4": // Luxury Hotel #1
                             case "LuxuryHotel":
+                            case "MP29_Hotel01":
                             case "PDX11_Hotel_kikyo":
                             case "PDX12_CityHotel":
                                 return "BeautificationHotels";
 
                             // Retail buildings
+                            case "Acrocastle Apartment Complex":
                             case "department_store":
                             case "Dosan Square Center":
                             case "Grand Mall":
@@ -326,6 +351,7 @@ namespace StreamlinedToolbar
                             case "MP24_UniqueBuilding02_PublicMarket":
                             case "MP24_UniqueBuilding03_GeneralStore":
                             case "MP26_Unique_DeptStore":
+                            case "MP29_FlagshipStore01":
                             case "Old Market Street":
                             case "PDX01_driveinn_taiheiyo":
                             case "PDX02_driveinn_natori":
@@ -342,7 +368,6 @@ namespace StreamlinedToolbar
                                 return "MonumentsCommercial";
 
                             // Office and high-rise buildings
-                            case "Acrocastle Apartment Complex":
                             case "BNBN_29": // Communications Center
                             case "Broadcasting Studios":
                             case "Colossal Offices":
@@ -352,6 +377,16 @@ namespace StreamlinedToolbar
                             case "JANGBEESOFT RD Center":
                             case "Landmark Office High 01":
                             case "Landmark Residential High 01":
+                            case "MP28_UniqueBuilding03": // Brutalist Office Building
+                            case "MP28_UniqueBuilding04": // Brutalist Stack Towers
+                            case "MP28_UniqueBuilding05": // Brutalist Clover Building
+                            case "MP29_InnovationHub01":
+                            case "MP29_LoftsSkyscraper01":
+                            case "MP29_LoftsTower01":
+                            case "MP29_LoftsTower02":
+                            case "MP29_OfficeSkyscraper01":
+                            case "MP29_OfficeTower01":
+                            case "MP29_SocialResidence01":
                             case "Nanotechnology Center":
                             case "PDX07_Cityoffice_M":
                             case "PDX08_Cityoffice_L":
