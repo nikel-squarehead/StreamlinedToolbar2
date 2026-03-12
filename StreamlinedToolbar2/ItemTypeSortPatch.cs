@@ -10,6 +10,7 @@ namespace StreamlinedToolbar
 
     enum BuildingCategoryGroup
     {
+        Water,
         Healthcare,
         Education,
         Police,
@@ -21,6 +22,13 @@ namespace StreamlinedToolbar
 
     enum BuildingCategory
     {
+        Water,
+        Sewage,
+        WaterTreatment,
+        WaterReservoir,
+        WaterOutlet,
+        WaterPumpingService,
+
         Hospital,
         HospitalWithHeli,
         Cemetery,
@@ -58,6 +66,13 @@ namespace StreamlinedToolbar
         {
             switch (cat)
             {
+                case BuildingCategory.Water:
+                case BuildingCategory.Sewage:
+                case BuildingCategory.WaterTreatment:
+                case BuildingCategory.WaterReservoir:
+                case BuildingCategory.WaterOutlet:
+                case BuildingCategory.WaterPumpingService:
+                    return BuildingCategoryGroup.Water;
                 case BuildingCategory.Hospital:
                 case BuildingCategory.HospitalWithHeli:
                 case BuildingCategory.Cemetery:
@@ -186,6 +201,44 @@ namespace StreamlinedToolbar
                 }
             }
 
+            if (ai is WaterFacilityAI)
+            {
+                WaterFacilityAI waterAi = ai as WaterFacilityAI;
+                if (waterAi.m_waterIntake != 0)
+                {
+                    if (waterAi.m_waterStorage != 0)
+                    {
+                        return BuildingCategory.WaterReservoir;
+                    }
+                    else
+                    {
+                        return BuildingCategory.Water;
+                    }
+                }
+                else if (waterAi.m_sewageOutlet != 0)
+                {
+                    if (waterAi.RequireRoadAccess())
+                    {
+                        if (waterAi.m_pumpingVehicles != 0)
+                        {
+                            return BuildingCategory.WaterPumpingService;
+                        }
+                        else
+                        {
+                            return BuildingCategory.WaterTreatment;
+                        }
+                    }
+                    else
+                    {
+                        return BuildingCategory.Sewage;
+                    }
+                }
+                else if (waterAi.m_waterOutlet != 0)
+                {
+                    return BuildingCategory.WaterOutlet;
+                }
+            }
+
             return BuildingCategory.Unrecognized;
         }
 
@@ -212,6 +265,7 @@ namespace StreamlinedToolbar
 
                 // Same category -> use default sorting
                 return 0;
+                //return toComparisonInt(first.GetConstructionCost() < second.GetConstructionCost());
             }
 
             if (GetBuildingCategoryGroup(firstCat) != GetBuildingCategoryGroup(secondCat))
