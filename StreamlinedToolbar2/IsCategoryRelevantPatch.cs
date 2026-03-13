@@ -32,4 +32,19 @@ namespace StreamlinedToolbar
             }
         }
     }
+
+    // EXPERIMENTAL!
+    // This patch handles parking lot custom assets from not showing up in Public Transport group which is haphazardly categorized by asset creators
+    [HarmonyPatch(typeof(PublicTransportGroupPanel), "IsCategoryRelevant")]
+    class IsCategoryRelevantForPublicTransportPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(string category, ref bool __result)
+        {
+            if (__result && category == "RoadsMaintenance")
+            {
+                __result = false;
+            }
+        }
+    }
 }
